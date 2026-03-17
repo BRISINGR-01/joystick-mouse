@@ -1,0 +1,17 @@
+[project]
+name = "arduino"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Alexander Popov",email = "alexander.popov233@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pyserial (>=3.5,<4.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
