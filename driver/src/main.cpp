@@ -1,22 +1,24 @@
 #include <mouse.hpp>
 
-int main()
+void test_mouse()
 {
     Mouse mouse;
 
     sleep(1); // let system register device
 
-    mouse.move(1, 1);
+    mouse.move(10, 10);
     usleep(100000);
-    // mouse.scroll(-10);
+    mouse.move(30, -50);
+    usleep(100000);
+    mouse.scroll(5);
+    usleep(100000);
+    mouse.scroll(-5);
+    usleep(100000);
+    mouse.scroll(5);
+}
 
-    // mouse.press(Button::Left);
-    // for (int i = 0; i < 20; ++i)
-    // {
-    //     mouse.move(1, 1);
-    //     usleep(10000);
-    // }
-    // mouse.release(Button::Left);
-
+int main()
+{
+    test_mouse();
     return 0;
 }

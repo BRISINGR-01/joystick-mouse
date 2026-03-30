@@ -7,19 +7,11 @@
 
 enum Button
 {
-    Left,
-    Right,
-    Forth,
-    Back,
-    Middle
-};
-
-enum Action
-{
-    Move,
-    Scroll,
-    Press,
-    Release
+    LEFTR,
+    RIGHT,
+    FORWARD,
+    BACK,
+    MIDDLE
 };
 
 #endif

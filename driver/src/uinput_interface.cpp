@@ -69,19 +69,19 @@ int get_btn_code(Button btn)
 {
     switch (btn)
     {
-    case Button::Left:
+    case Button::LEFTR:
         return BTN_LEFT;
-    case Button::Right:
+    case Button::RIGHT:
         return BTN_RIGHT;
-    case Button::Middle:
+    case Button::MIDDLE:
         return BTN_MIDDLE;
-    case Button::Forth:
+    case Button::FORWARD:
         return BTN_FORWARD;
-    case Button::Back:
+    case Button::BACK:
         return BTN_BACK;
     }
 
-    throw "";
+    throw "Button '" + std::to_string(btn) + "' not recognized";
 }
 
 void uinput_interface::send_press_event(int fd, Button btn)
