@@ -1,4 +1,4 @@
-#include <uinput_interface.hpp>
+#include <uinput_backend.hpp>
 
 void emit(int fd, int type, int code, int val)
 {
@@ -14,7 +14,7 @@ void emit(int fd, int type, int code, int val)
     write(fd, &ie, sizeof(ie));
 }
 
-int uinput_interface::create_device(std::string device_name, unsigned short vendor_id, unsigned short product_id)
+int UInputBackend::create_device(std::string device_name, unsigned short vendor_id, unsigned short product_id)
 {
     int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (fd < 0)
@@ -46,20 +46,20 @@ int uinput_interface::create_device(std::string device_name, unsigned short vend
     return fd;
 }
 
-void uinput_interface::destroy_device(int fd)
+void UInputBackend::destroy_device(int fd)
 {
     ioctl(fd, UI_DEV_DESTROY);
     close(fd);
 }
 
-void uinput_interface::send_move_event(int fd, int x, int y)
+void UInputBackend::send_move_event(int fd, int x, int y)
 {
     emit(fd, EV_REL, REL_X, x);
     emit(fd, EV_REL, REL_Y, y);
     emit(fd, EV_SYN, SYN_REPORT, 0);
 }
 
-void uinput_interface::send_scroll_event(int fd, int val)
+void UInputBackend::send_scroll_event(int fd, int val)
 {
     emit(fd, EV_REL, REL_WHEEL, val);
     emit(fd, EV_SYN, SYN_REPORT, 0);
@@ -84,13 +84,13 @@ int get_btn_code(Button btn)
     throw "Button '" + std::to_string(btn) + "' not recognized";
 }
 
-void uinput_interface::send_press_event(int fd, Button btn)
+void UInputBackend::send_press_event(int fd, Button btn)
 {
     emit(fd, EV_KEY, get_btn_code(btn), 1);
     emit(fd, EV_SYN, SYN_REPORT, 0);
 }
 
-void uinput_interface::send_release_event(int fd, Button btn)
+void UInputBackend::send_release_event(int fd, Button btn)
 {
     emit(fd, EV_KEY, get_btn_code(btn), 0);
     emit(fd, EV_SYN, SYN_REPORT, 0);

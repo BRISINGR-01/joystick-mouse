@@ -1,5 +1,8 @@
-#include <uinput_interface.hpp>
+#pragma once
+#include <event_interface.hpp>
 #include <constants.hpp>
+
+#include <memory>
 
 /**
  * @class Mouse
@@ -11,6 +14,8 @@
 class Mouse
 {
 private:
+    std::unique_ptr<EventInterface> ei;
+
     /// File descriptor for `/dev/uinput` (virtual device handle)
     int fd;
 
@@ -23,7 +28,7 @@ public:
      *
      * Opens `/dev/uinput`, configures capabilities (REL_X, REL_Y, buttons, etc.), and creates the device.
      */
-    Mouse();
+    Mouse(std::unique_ptr<EventInterface> ei);
 
     /**
      * @brief Destroy the virtual mouse device.

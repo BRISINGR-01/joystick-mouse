@@ -1,8 +1,12 @@
+#include <uinput_backend.hpp>
 #include <mouse.hpp>
+
+#include <memory>
 
 void test_mouse()
 {
-    Mouse mouse;
+    auto uinput = std::make_unique<UInputBackend>();
+    Mouse mouse(std::move(uinput));
 
     sleep(1); // let system register device
 

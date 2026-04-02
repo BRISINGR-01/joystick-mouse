@@ -1,33 +1,22 @@
 #pragma once
-
-#include <linux/uinput.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-#include <iostream>
-
 #include <constants.hpp>
 
-/**
- * @brief Emit a single input event to the virtual device.
- *
- * @param fd File descriptor of the uinput device
- * @param type Event type (e.g., EV_REL, EV_KEY)
- * @param code Event code (e.g., REL_X, BTN_LEFT)
- * @param val Event value
- */
-static void emit(int fd, int type, int code, int val);
+#include <iostream>
 
 /**
- * @brief Map a Button enum to its corresponding Linux input code.
+ * @class EventInterface
+ * @brief Defines an interface to generating kernel mouse related events
  *
- * @param btn Button enum value
- * @return int Linux input code (e.g., BTN_LEFT, BTN_RIGHT)
+ * Provides a high-level API to control a virtual mouse device:
+ * movement, scrolling, and button actions.
  */
-static int get_btn_code(Button btn);
-
-namespace uinput_interface
+class EventInterface
 {
+public:
+    EventInterface() = default;          // All constructors are to prevent
+    virtual ~EventInterface() = default; // multiple copies of EventInterface classes
+
+public:
     /**
      * @brief Create a virtual uinput device.
      *
@@ -38,14 +27,13 @@ namespace uinput_interface
      * @param product_id USB product ID to assign
      * @return int File descriptor of the created uinput device
      */
-    int create_device(std::string device_name, unsigned short vendor_id, unsigned short product_id);
+    virtual int create_device(std::string device_name, unsigned short vendor_id, unsigned short product_id) = 0;
 
     /**
      * @brief Destroy a virtual uinput device.
-     *
      * @param fd File descriptor of the device to destroy
      */
-    void destroy_device(int fd);
+    virtual void destroy_device(int fd) = 0;
 
     /**
      * @brief Send relative mouse movement events.
@@ -54,7 +42,7 @@ namespace uinput_interface
      * @param x Relative movement along X axis
      * @param y Relative movement along Y axis
      */
-    void send_move_event(int fd, int x, int y);
+    virtual void send_move_event(int fd, int x, int y) = 0;
 
     /**
      * @brief Send scroll wheel events.
@@ -62,7 +50,7 @@ namespace uinput_interface
      * @param fd File descriptor of the virtual device
      * @param val Scroll amount (positive = up, negative = down)
      */
-    void send_scroll_event(int fd, int val);
+    virtual void send_scroll_event(int fd, int val) = 0;
 
     /**
      * @brief Send a button press event.
@@ -70,7 +58,7 @@ namespace uinput_interface
      * @param fd File descriptor of the virtual device
      * @param btn Button to press
      */
-    void send_press_event(int fd, Button btn);
+    virtual void send_press_event(int fd, Button btn) = 0;
 
     /**
      * @brief Send a button release event.
@@ -78,5 +66,5 @@ namespace uinput_interface
      * @param fd File descriptor of the virtual device
      * @param btn Button to release
      */
-    void send_release_event(int fd, Button btn);
-}
+    virtual void send_release_event(int fd, Button btn) = 0;
+};
