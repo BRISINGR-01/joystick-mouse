@@ -1,0 +1,17 @@
+edition = "2023";
+
+package joystic_mouse;
+
+message Package {
+  bool left_btn = 1;
+  bool right_btn = 2;
+  bool middle_btn = 3;
+  bool forward_btn = 4;
+  bool backword_btn = 5;
+
+  uint32 slider = 6;
+  sint32 scroll = 7;
+
+  sint32 x_move = 8;
+  sint32 y_move = 9;
+}

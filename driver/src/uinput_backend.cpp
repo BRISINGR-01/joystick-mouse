@@ -1,4 +1,5 @@
 #include <uinput_backend.hpp>
+#include <exception.hpp>
 
 void emit(int fd, int type, int code, int val)
 {
@@ -19,7 +20,7 @@ int UInputBackend::create_device(std::string device_name, unsigned short vendor_
     int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (fd < 0)
     {
-        throw "Failed to open /dev/uinput\n";
+        throw Exception("Failed to open /dev/uinput");
     }
 
     ioctl(fd, UI_SET_EVBIT, EV_REL);

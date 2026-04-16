@@ -7,7 +7,7 @@ public:
     RotaryEncoder(int aPin, int bPin);
 
     void setup();
-    int readVal();
+    int read_and_clear();
 };
 
 int readAxis(int thisAxis);

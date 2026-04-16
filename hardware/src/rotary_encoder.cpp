@@ -42,9 +42,11 @@ void RotaryEncoder::setup()
     Serial.begin(9600);
 }
 
-int RotaryEncoder::readVal()
+int RotaryEncoder::read_and_clear()
 {
-    return encoderCount;
+    int val = encoderCount;
+    encoderCount = 0;
+    return val;
 }
 
 // https://pcb-copy.com/mouse-rotary-encoder-the-working-principle-and-how-to-connect-it-with-the-arduino/

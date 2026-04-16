@@ -1,8 +1,5 @@
-#include <uinput_backend.hpp>
-#include <mouse.hpp>
 #include <packet.pb.h>
-#include <fstream>
-#include <iostream>
+#include <memory>
 
 std::unique_ptr<joystic_mouse::Package> create_pkg(bool left_btn,
                                                    bool right_btn,
@@ -33,51 +30,13 @@ std::unique_ptr<joystic_mouse::Package> create_pkg(bool left_btn,
     return pkg;
 }
 
-void test_mouse()
-{
-    auto uinput = std::make_unique<UInputBackend>();
-    Mouse mouse(std::move(uinput));
-
-    sleep(1); // let system register device
-
-    mouse.move(10, 10);
-    usleep(100000);
-    mouse.move(30, -50);
-    usleep(100000);
-    mouse.scroll(5);
-    usleep(100000);
-    mouse.scroll(-5);
-    usleep(100000);
-    mouse.scroll(5);
-}
-
 int main()
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-    auto pkg = create_pkg(false, false, true, false, true, 0, 10, 0, 0);
+    auto pkg = create_pkg(false, false, true, false, false, true, 0, 10, 0);
 
     std::cout << pkg->DebugString() << std::endl;
-    {
-        std::fstream output("packet.bin", std::ios::out | std::ios::trunc | std::ios::binary);
-        if (!pkg->SerializeToOstream(&output))
-        {
-            std::cerr << "Failed to write." << std::endl;
-            return -1;
-        }
-    }
-    joystic_mouse::Package pkg_in;
-
-    {
-        std::fstream input("packet.bin", std::ios::in | std::ios::binary);
-        if (!pkg_in.ParseFromIstream(&input))
-        {
-            std::cerr << "Failed to parse." << std::endl;
-            return -1;
-        }
-    }
-    std::cout << pkg_in.DebugString() << std::endl;
 
     google::protobuf::ShutdownProtobufLibrary();
-    return 0;
 }
