@@ -1,23 +1,9 @@
 #include <uinput_backend.hpp>
 #include <exception.hpp>
 
-void emit(int fd, int type, int code, int val)
+UInputBackend::UInputBackend(std::string device_name, unsigned short vendor_id, unsigned short product_id)
 {
-    struct input_event ie;
-
-    ie.type = type;
-    ie.code = code;
-    ie.value = val;
-    /* timestamp values below are ignored */
-    ie.time.tv_sec = 0;
-    ie.time.tv_usec = 0;
-
-    write(fd, &ie, sizeof(ie));
-}
-
-int UInputBackend::create_device(std::string device_name, unsigned short vendor_id, unsigned short product_id)
-{
-    int fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
+    fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (fd < 0)
     {
         throw Exception("Failed to open /dev/uinput");
@@ -43,34 +29,47 @@ int UInputBackend::create_device(std::string device_name, unsigned short vendor_
 
     ioctl(fd, UI_DEV_SETUP, &usetup);
     ioctl(fd, UI_DEV_CREATE);
-
-    return fd;
 }
 
-void UInputBackend::destroy_device(int fd)
+UInputBackend::~UInputBackend()
 {
+
     ioctl(fd, UI_DEV_DESTROY);
     close(fd);
 }
 
-void UInputBackend::send_move_event(int fd, int x, int y)
+void UInputBackend::emit(int type, int code, int val)
 {
-    emit(fd, EV_REL, REL_X, x);
-    emit(fd, EV_REL, REL_Y, y);
-    emit(fd, EV_SYN, SYN_REPORT, 0);
+    struct input_event ie;
+
+    ie.type = type;
+    ie.code = code;
+    ie.value = val;
+    /* timestamp values below are ignored */
+    ie.time.tv_sec = 0;
+    ie.time.tv_usec = 0;
+
+    write(fd, &ie, sizeof(ie));
 }
 
-void UInputBackend::send_scroll_event(int fd, int val)
+void UInputBackend::send_move_event(int x, int y)
 {
-    emit(fd, EV_REL, REL_WHEEL, val);
-    emit(fd, EV_SYN, SYN_REPORT, 0);
+    emit(EV_REL, REL_X, x);
+    emit(EV_REL, REL_Y, y);
+    emit(EV_SYN, SYN_REPORT, 0);
+}
+
+void UInputBackend::send_scroll_event(int val)
+{
+    emit(EV_REL, REL_WHEEL, val);
+    emit(EV_SYN, SYN_REPORT, 0);
 }
 
 int get_btn_code(Button btn)
 {
     switch (btn)
     {
-    case Button::LEFTR:
+    case Button::LEFT:
         return BTN_LEFT;
     case Button::RIGHT:
         return BTN_RIGHT;
@@ -78,21 +77,21 @@ int get_btn_code(Button btn)
         return BTN_MIDDLE;
     case Button::FORWARD:
         return BTN_FORWARD;
-    case Button::BACK:
+    case Button::BACKWARD:
         return BTN_BACK;
     }
 
     throw "Button '" + std::to_string(btn) + "' not recognized";
 }
 
-void UInputBackend::send_press_event(int fd, Button btn)
+void UInputBackend::send_press_event(Button btn)
 {
-    emit(fd, EV_KEY, get_btn_code(btn), 1);
-    emit(fd, EV_SYN, SYN_REPORT, 0);
+    emit(EV_KEY, get_btn_code(btn), 1);
+    emit(EV_SYN, SYN_REPORT, 0);
 }
 
-void UInputBackend::send_release_event(int fd, Button btn)
+void UInputBackend::send_release_event(Button btn)
 {
-    emit(fd, EV_KEY, get_btn_code(btn), 0);
-    emit(fd, EV_SYN, SYN_REPORT, 0);
+    emit(EV_KEY, get_btn_code(btn), 0);
+    emit(EV_SYN, SYN_REPORT, 0);
 }

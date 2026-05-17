@@ -1,36 +1,30 @@
 #include <mouse.hpp>
 
-Mouse::Mouse(std::unique_ptr<EventInterface> ei) : ei(std::move(ei))
+Mouse::Mouse(std::unique_ptr<EventInterface> event_interface) : event_interface(std::move(event_interface))
 {
-    this->fd = this->ei->create_device(DEVICE_NAME, VENDOR_ID, PRODUCT_ID);
-}
-
-Mouse::~Mouse()
-{
-    ei->destroy_device(this->fd);
 }
 
 void Mouse::set_sensitivity(int val)
 {
-    this->sensitivity = val;
+    this->sensitivity = (float)val / 5;
 }
 
 void Mouse::move(int x, int y)
 {
-    ei->send_move_event(this->fd, x * sensitivity, y * sensitivity);
+    event_interface->send_move_event(x * sensitivity, y * sensitivity);
 }
 
 void Mouse::scroll(int val)
 {
-    ei->send_scroll_event(this->fd, val);
+    event_interface->send_scroll_event(val);
 }
 
 void Mouse::press(Button btn)
 {
-    ei->send_press_event(this->fd, btn);
+    event_interface->send_press_event(btn);
 }
 
 void Mouse::release(Button btn)
 {
-    ei->send_release_event(this->fd, btn);
+    event_interface->send_release_event(btn);
 }

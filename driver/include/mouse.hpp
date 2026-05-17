@@ -14,28 +14,14 @@
 class Mouse
 {
 private:
-    std::unique_ptr<EventInterface> ei;
-
-    /// File descriptor for `/dev/uinput` (virtual device handle)
-    int fd;
+    std::unique_ptr<EventInterface> event_interface;
 
     /// Movement multiplier (higher = faster cursor)
-    int sensitivity = 2;
+    float sensitivity;
 
 public:
-    /**
-     * @brief Construct and initialize the virtual mouse device.
-     *
-     * Opens `/dev/uinput`, configures capabilities (REL_X, REL_Y, buttons, etc.), and creates the device.
-     */
-    Mouse(std::unique_ptr<EventInterface> ei);
-
-    /**
-     * @brief Destroy the virtual mouse device.
-     *
-     * Destroys the uinput device and closes the file descriptor.
-     */
-    ~Mouse();
+    /// Construct and initialize the virtual mouse device.
+    Mouse(std::unique_ptr<EventInterface> event_interface);
 
     /**
      * @brief Set mouse sensitivity.

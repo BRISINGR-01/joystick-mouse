@@ -1,45 +1,17 @@
+#include <receiver.hpp>
+#include <data_constants.hpp>
 #include <uinput_backend.hpp>
 #include <mouse.hpp>
-#include <packet.pb.h>
+#include <utils.hpp>
+
 #include <fstream>
+#include <ostream>
 #include <iostream>
 
-std::unique_ptr<joystic_mouse::Package> create_pkg(bool left_btn,
-                                                   bool right_btn,
-                                                   bool middle_btn,
-                                                   bool forward_btn,
-                                                   bool backword_btn,
-
-                                                   short int slider,
-                                                   signed short int scroll,
-
-                                                   signed short int x_move,
-                                                   signed short int y_move)
-{
-    auto pkg = std::make_unique<joystic_mouse::Package>();
-
-    pkg->set_left_btn(left_btn);
-    pkg->set_right_btn(right_btn);
-    pkg->set_middle_btn(middle_btn);
-    pkg->set_forward_btn(forward_btn);
-    pkg->set_backward_btn(backword_btn);
-    pkg->set_slider(slider);
-    pkg->set_scroll(scroll);
-    pkg->set_x_move(x_move);
-    pkg->set_y_move(y_move);
-
-    assert(pkg->IsInitialized());
-
-    return pkg;
-}
+Mouse mouse(std::make_unique<UInputBackend>(DEVICE_NAME, VENDOR_ID, PRODUCT_ID));
 
 void test_mouse()
 {
-    auto uinput = std::make_unique<UInputBackend>();
-    Mouse mouse(std::move(uinput));
-
-    sleep(1); // let system register device
-
     mouse.move(10, 10);
     usleep(100000);
     mouse.move(30, -50);
@@ -51,33 +23,85 @@ void test_mouse()
     mouse.scroll(5);
 }
 
+Button get_btn(int btn_idx)
+{
+    switch (btn_idx)
+    {
+    case LEFT_IDX:
+        return Button::LEFT;
+    case RIGHT_IDX:
+        return Button::RIGHT;
+    case MIDDLE_IDX:
+        return Button::MIDDLE;
+    case FORWARD_IDX:
+        return Button::FORWARD;
+    case BACKWARD_IDX:
+        return Button::BACKWARD;
+    }
+
+    log_err(("Button '" + std::to_string(btn_idx) + "' not recognized").c_str());
+    return (Button)-1;
+}
+
+void on_data_received(Receiver &receiver)
+{
+    if (receiver.has_cursor_change())
+    {
+        mouse.set_sensitivity(receiver.get_sensitivity());
+        mouse.move(receiver.get_x(), receiver.get_y());
+    }
+
+    if (receiver.has_scroll_change())
+    {
+        mouse.scroll(receiver.get_scroll());
+    }
+
+    bool is_pressed;
+    Button btn;
+    for (size_t btn_idx = 0; btn_idx < BUTTON_COUNT; btn_idx++)
+    {
+        btn = get_btn(btn_idx);
+        if (btn == -1)
+            continue;
+
+        if (receiver.has_btn_change(btn))
+        {
+            is_pressed = receiver.is_btn_pressed(btn);
+            if (is_pressed)
+            {
+                mouse.press(btn);
+            }
+            else
+            {
+                mouse.release(btn);
+            }
+        }
+    }
+}
+
 int main()
 {
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-    auto pkg = create_pkg(false, false, true, false, true, 0, 10, 0, 0);
-
-    std::cout << pkg->DebugString() << std::endl;
+    int port = open("/dev/ttyUSB0", O_RDONLY);
+    if (port == -1)
     {
-        std::fstream output("packet.bin", std::ios::out | std::ios::trunc | std::ios::binary);
-        if (!pkg->SerializeToOstream(&output))
-        {
-            std::cerr << "Failed to write." << std::endl;
-            return -1;
-        }
+        log_err("Could not open port");
+        return 1;
     }
-    joystic_mouse::Package pkg_in;
 
+    Receiver receiver(port);
+
+    while (1)
     {
-        std::fstream input("packet.bin", std::ios::in | std::ios::binary);
-        if (!pkg_in.ParseFromIstream(&input))
+        if (!receiver.wait())
         {
-            std::cerr << "Failed to parse." << std::endl;
-            return -1;
+            continue;
         }
-    }
-    std::cout << pkg_in.DebugString() << std::endl;
 
-    google::protobuf::ShutdownProtobufLibrary();
-    return 0;
+        if (!receiver.process())
+        {
+            continue;
+        }
+
+        on_data_received(receiver);
+    }
 }

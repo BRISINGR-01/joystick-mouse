@@ -1,11 +1,10 @@
 #include <joystick.hpp>
 
-int readAxis(int axis)
+int read_axis(int axis)
 {
-    int reading = analogRead(axis);
-    reading = map(reading, JOYSITCK_MIN, JOYSITCK_MAX, -JOYSITCK_SENSITIVITY, JOYSITCK_SENSITIVITY);
+    int reading = map(analogRead(axis), JOYSTICK_MIN, JOYSTICK_MAX, -JOYSTICK_SENSITIVITY, JOYSTICK_SENSITIVITY);
 
-    if (abs(reading) < JOYSITCK_TRESHOLD)
+    if (abs(reading) < JOYSTICK_THRESHOLD)
     {
         reading = 0;
     }
@@ -24,22 +23,15 @@ void Joystick::setup()
     sw.setDebounceTime(50);
 }
 
-void Joystick::loop()
+void Joystick::update()
 {
     sw.loop();
+    is_pressed = sw.getState();
+    x = read_axis(xPin);
+    y = read_axis(yPin);
 }
 
-const int Joystick::readX()
+bool Joystick::has_input()
 {
-    return readAxis(xPin);
-}
-
-const int Joystick::readY()
-{
-    return readAxis(yPin);
-}
-
-const int Joystick::readSW()
-{
-    return sw.getState();
+    return x != 0 || y != 0 || is_pressed;
 }

@@ -4,7 +4,7 @@ int aPin = 0;
 int bPin = 0;
 volatile int encoderCount = 0;
 
-RotaryEncoder::RotaryEncoder(int a, int b)
+RotaryEncoder::RotaryEncoder(int a, int b) : val(0)
 {
     aPin = a;
     bPin = b;
@@ -37,16 +37,21 @@ void RotaryEncoder::setup()
 {
     pinMode(aPin, INPUT_PULLUP);
     pinMode(bPin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(aPin), handleEncoderInterrupt, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(bPin), handleEncoderInterrupt, CHANGE);
-    Serial.begin(9600);
+    int a = digitalPinToInterrupt(aPin);
+    int b = digitalPinToInterrupt(bPin);
+
+    if (a == -1 || b == -1)
+    {
+        Serial.println("Pin A or B is not avaliable as interrupt pin");
+        exit(1);
+    }
+
+    attachInterrupt(a, handleEncoderInterrupt, CHANGE);
+    attachInterrupt(b, handleEncoderInterrupt, CHANGE);
 }
 
-int RotaryEncoder::read_and_clear()
+void RotaryEncoder::update()
 {
-    int val = encoderCount;
+    val = constrain(encoderCount, -127, 127);
     encoderCount = 0;
-    return val;
 }
-
-// https://pcb-copy.com/mouse-rotary-encoder-the-working-principle-and-how-to-connect-it-with-the-arduino/

@@ -1,5 +1,6 @@
 #pragma once
 #include <Arduino.h>
+#include <data_constants.hpp>
 
 class RotaryEncoder
 {
@@ -7,7 +8,9 @@ public:
     RotaryEncoder(int aPin, int bPin);
 
     void setup();
-    int read_and_clear();
+    void update();
+
+    data_unit val = 0;
 };
 
-int readAxis(int thisAxis);
+void handleEncoderInterrupt();
