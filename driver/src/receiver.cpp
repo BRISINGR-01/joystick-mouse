@@ -58,7 +58,7 @@ void set_up_termios(int port)
     termios tty{};
     int status = tcgetattr(port, &tty);
     if (status == -1)
-        throw new Exception("Could not get termios settings");
+        throw Exception("Could not get termios settings");
 
     tty.c_cc[VMIN] = 5;  /* Read at least 5 characters */
     tty.c_cc[VTIME] = 1; /* Wait for 1 *100ms = 1 second, measured in increments of 100ms */
@@ -76,7 +76,7 @@ void set_up_termios(int port)
 
     status = tcsetattr(port, TCSANOW, &tty);
     if (status == -1)
-        throw new Exception("Could not set termios settings");
+        throw Exception("Could not set termios settings");
 
     tcflush(port, TCIOFLUSH);
 }
@@ -110,7 +110,7 @@ bool Receiver::process()
             break;
         case 0:
             if (event.events & (EPOLLHUP | EPOLLRDHUP))
-                throw new Exception("Device disconnected");
+                throw Exception("Device disconnected");
             break;
         default:
             bool is_filled = fill(bytes_read, offset, buffer, curr_data.data);

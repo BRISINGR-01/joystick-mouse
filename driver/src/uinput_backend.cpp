@@ -5,7 +5,7 @@ UInputBackend::UInputBackend(std::string device_name, unsigned short vendor_id, 
 {
     fd = open("/dev/uinput", O_WRONLY | O_NONBLOCK);
     if (fd < 0)
-        throw new Exception("Failed to open /dev/uinput");
+        throw Exception("Failed to open /dev/uinput");
 
     ioctl(fd, UI_SET_EVBIT, EV_REL);
     ioctl(fd, UI_SET_RELBIT, REL_X);
@@ -79,7 +79,7 @@ int get_btn_code(Button btn)
         return BTN_BACK;
     }
 
-    throw "Button '" + std::to_string(btn) + "' not recognized";
+    throw Exception("Button '" + std::to_string(btn) + "' not recognized");
 }
 
 void UInputBackend::send_press_event(Button btn)

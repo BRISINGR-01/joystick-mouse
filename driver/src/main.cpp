@@ -6,22 +6,6 @@
 #include <utils.hpp>
 #include <serial_comm.hpp>
 
-auto receiver = Receiver();
-Mouse mouse(std::make_unique<UInputBackend>(DEVICE_NAME, VENDOR_ID, PRODUCT_ID));
-
-void test_mouse()
-{
-    mouse.move(10, 10);
-    usleep(100000);
-    mouse.move(30, -50);
-    usleep(100000);
-    mouse.scroll(5);
-    usleep(100000);
-    mouse.scroll(-5);
-    usleep(100000);
-    mouse.scroll(5);
-}
-
 int main(int argc, char *argv[])
 {
     check_args(argc, argv);
@@ -29,6 +13,8 @@ int main(int argc, char *argv[])
     const string port_name = argv[1];
     int port = open_port(port_name);
     write_log("Connected to port \"" + port_name + '"');
+
+    auto receiver = Receiver();
 
     try
     {
@@ -40,6 +26,7 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    Mouse mouse(std::make_unique<UInputBackend>(DEVICE_NAME, VENDOR_ID, PRODUCT_ID));
     while (true)
     {
         if (!receiver.wait())

@@ -1,6 +1,7 @@
 #include <utils.hpp>
 #include <exception.hpp>
 
+#include <syslog.h>
 #include <iostream>
 #include <fcntl.h>
 #include <math.h>
@@ -28,11 +29,13 @@ int open_port(const string &port_name)
 
 void write_log(const std::string &str)
 {
+    syslog(LOG_NOTICE, str.c_str());
     std::cout << str << std::endl;
 }
 
 void log_err(const std::string &str)
 {
+    syslog(LOG_ERR, str.c_str());
     std::cerr << str << std::endl;
 }
 
