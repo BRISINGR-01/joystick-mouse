@@ -5,12 +5,22 @@
 #include <fcntl.h>
 #include <math.h>
 
+void check_args(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        log_err("Invalid usage. Expected single argument - path to port, instead " + to_string(argc - 1) + " argument(s) were provided.");
+        exit(-1);
+    }
+}
+
 int open_port(const string &port_name)
 {
     int port = open(port_name.c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK);
     if (port == -1)
     {
-        throw new Exception("Could not open port");
+        log_err("Could not open port");
+        exit(-1);
     }
 
     return port;
@@ -50,6 +60,26 @@ void debug(bool is_filled, int bytes_read, int offset, data_unit *buf, data_unit
         printf("%d ", (int)curr[i]);
     }
     printf("\n");
+}
+
+Button get_btn(int btn_idx)
+{
+    switch (btn_idx)
+    {
+    case LEFT_IDX:
+        return Button::LEFT;
+    case RIGHT_IDX:
+        return Button::RIGHT;
+    case MIDDLE_IDX:
+        return Button::MIDDLE;
+    case FORWARD_IDX:
+        return Button::FORWARD;
+    case BACKWARD_IDX:
+        return Button::BACKWARD;
+    }
+
+    log_err(("Button '" + std::to_string(btn_idx) + "' not recognized").c_str());
+    return (Button)-1;
 }
 
 std::string get_btn_debug(int btn_idx)

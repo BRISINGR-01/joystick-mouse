@@ -30,9 +30,7 @@ void Receiver::connect(int port)
 
     epoll_fd = epoll_create1(0);
     if (epoll_fd == -1)
-    {
         throw Exception("Failed to create epoll file descriptor");
-    }
 
     event.events = EPOLLIN;
     event.data.fd = port;

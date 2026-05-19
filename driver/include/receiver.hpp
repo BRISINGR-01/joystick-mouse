@@ -1,3 +1,4 @@
+#pragma once
 #include <constants.hpp>
 #include <data_constants.hpp>
 

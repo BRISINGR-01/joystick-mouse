@@ -13,8 +13,7 @@ void Mouse::set_sensitivity(int val)
 
 int get_step(int max)
 {
-    return 1;
-    // return std::max(1, max / 5);
+    return std::max(1, max / 5);
 }
 
 int x_val, y_val, x_end, y_end, x_step, y_step;
@@ -52,7 +51,7 @@ void Mouse::move(int x, int y)
         }
 
         event_interface->send_move_event(x_val, y_val);
-        usleep(1000);
+        usleep(100);
     }
     printf("move: %d %d\n", x_end * (x > 0 ? 1 : -1), y_end * (y > 0 ? 1 : -1));
 }

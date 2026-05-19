@@ -25,11 +25,11 @@ void setup()
 
 void fill_data()
 {
-  // data[BUTTON_IDX] = btns.encode_data(joystick);
+  data[BUTTON_IDX] = btns.encode_data(joystick);
   data[X_IDX] = joystick.x;
   data[Y_IDX] = joystick.y;
-  // data[SCROLL_IDX] = rotary_encoder.val;
-  // data[SLIDER_IDX] = slider_val;
+  data[SCROLL_IDX] = rotary_encoder.val;
+  data[SLIDER_IDX] = slider_val;
 }
 
 void loop()
