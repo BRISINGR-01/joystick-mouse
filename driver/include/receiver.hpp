@@ -3,8 +3,10 @@
 
 #include <sys/epoll.h>
 
-#define EPOLL_TIMEOUT -1 // infinity
+#define EPOLL_TIMEOUT 30000 // infinity
 #define EPOLL_EVENTS_COUNT 1
+
+void set_up_termios(int port);
 
 class Receiver
 {
@@ -16,33 +18,34 @@ class Receiver
         void set(data_unit *buf);
 
         bool is_btn_pressed(Button btn);
-        data_unit get_x();
-        data_unit get_y();
-        data_unit get_scroll();
-        data_unit get_sensitivity();
+        int get_x();
+        int get_y();
+        int get_scroll();
+        int get_sensitivity();
     };
 
 private:
     Data prev_data;
-    Data curr;
+    Data curr_data;
 
     int epoll_fd, offset = 0, event_count;
     struct epoll_event events[EPOLL_EVENTS_COUNT];
 
 public:
-    Receiver(int fd);
+    Receiver();
     ~Receiver();
+    void connect(int port);
     bool wait();
     bool process();
 
     bool is_btn_pressed(Button btn);
-    data_unit get_x();
-    data_unit get_y();
-    data_unit get_scroll();
-    data_unit get_sensitivity();
+    int get_x();
+    int get_y();
+    int get_scroll();
+    int get_sensitivity();
 
     bool has_cursor_change();
     bool has_scroll_change();
-    bool has_sensitivity_change();
+    bool has_btn_change();
     bool has_btn_change(Button btn);
 };

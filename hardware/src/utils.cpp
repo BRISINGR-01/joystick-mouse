@@ -7,15 +7,23 @@ int read_slider()
     return map(analogRead(SLIDER_PIN), 0, SLIDER_MAX, 0, 100); // must fit in a char
 }
 
-bool is_equal(data_unit *prev_data, data_unit *data)
+bool should_send(data_unit *data, data_unit *prev_data)
 {
     for (size_t i = 0; i < DATA_SIZE; i++)
     {
+        if (i == X_IDX || i == Y_IDX)
+        {
+            if (data[i] != 0)
+                return true;
+
+            continue;
+        }
+
         if (data[i] != prev_data[i])
         {
-            return false;
+            return true;
         }
     }
 
-    return true;
+    return false;
 }

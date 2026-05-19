@@ -5,4 +5,4 @@
 
 int read_slider();
 
-bool is_equal(data_unit *prev_data, data_unit *data);
+bool should_send(data_unit *prev_data, data_unit *data);

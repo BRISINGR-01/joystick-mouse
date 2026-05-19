@@ -30,8 +30,3 @@ void Joystick::update()
     x = read_axis(xPin);
     y = read_axis(yPin);
 }
-
-bool Joystick::has_input()
-{
-    return x != 0 || y != 0 || is_pressed;
-}

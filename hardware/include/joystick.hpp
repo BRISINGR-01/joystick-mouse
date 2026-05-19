@@ -20,7 +20,6 @@ public:
 
     void setup();
     void update(); // must be run every loop
-    bool has_input();
 
     data_unit x;
     data_unit y;

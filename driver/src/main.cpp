@@ -1,13 +1,11 @@
+#include <exception.hpp>
 #include <receiver.hpp>
 #include <data_constants.hpp>
 #include <uinput_backend.hpp>
 #include <mouse.hpp>
 #include <utils.hpp>
 
-#include <fstream>
-#include <ostream>
-#include <iostream>
-
+auto receiver = Receiver();
 Mouse mouse(std::make_unique<UInputBackend>(DEVICE_NAME, VENDOR_ID, PRODUCT_ID));
 
 void test_mouse()
@@ -43,7 +41,58 @@ Button get_btn(int btn_idx)
     return (Button)-1;
 }
 
-void on_data_received(Receiver &receiver)
+void on_data_received();
+void listen_to(string port_name);
+
+int main()
+{
+    string port_name = "/dev/ttyUSB0";
+    try
+    {
+        listen_to(port_name);
+    }
+    catch (const std::exception &)
+    {
+    }
+}
+
+void listen_to(string port_name)
+{
+    int port = open_port(port_name);
+    write_log("Connected to port \"" + port_name + '"');
+
+    try
+    {
+        receiver.connect(port);
+    }
+    catch (const std::exception &e)
+    {
+        close(port);
+        return;
+    }
+
+    while (true)
+    {
+        if (!receiver.wait())
+            continue;
+
+        try
+        {
+            if (!receiver.process())
+                continue;
+        }
+        catch (const std::exception &e)
+        {
+            break;
+        }
+
+        on_data_received();
+    }
+
+    close(port);
+}
+
+void on_data_received()
 {
     if (receiver.has_cursor_change())
     {
@@ -51,10 +100,16 @@ void on_data_received(Receiver &receiver)
         mouse.move(receiver.get_x(), receiver.get_y());
     }
 
+    return;
+
     if (receiver.has_scroll_change())
     {
         mouse.scroll(receiver.get_scroll());
+        printf("scroll: %d\n", receiver.get_scroll());
     }
+
+    if (!receiver.has_btn_change())
+        return;
 
     bool is_pressed;
     Button btn;
@@ -70,38 +125,13 @@ void on_data_received(Receiver &receiver)
             if (is_pressed)
             {
                 mouse.press(btn);
+                printf("press: %s\n", get_btn_debug(btn).c_str());
             }
             else
             {
                 mouse.release(btn);
+                printf("release: %s\n", get_btn_debug(btn).c_str());
             }
         }
-    }
-}
-
-int main()
-{
-    int port = open("/dev/ttyUSB0", O_RDONLY);
-    if (port == -1)
-    {
-        log_err("Could not open port");
-        return 1;
-    }
-
-    Receiver receiver(port);
-
-    while (1)
-    {
-        if (!receiver.wait())
-        {
-            continue;
-        }
-
-        if (!receiver.process())
-        {
-            continue;
-        }
-
-        on_data_received(receiver);
     }
 }
