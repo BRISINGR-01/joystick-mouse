@@ -8,6 +8,7 @@ void process_data(Receiver &receiver, Mouse &mouse)
     if (receiver.has_cursor_change())
     {
         mouse.set_sensitivity(receiver.get_sensitivity());
+        printf("%d", receiver.get_sensitivity());
         mouse.move(receiver.get_x(), receiver.get_y());
     }
 

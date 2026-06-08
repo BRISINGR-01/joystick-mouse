@@ -1,8 +1,6 @@
 #include "data_constants.hpp"
 #include <string>
 
-void check_args(int argc, char *argv[]);
-
 int open_port(const std::string &port_name);
 
 void write_log(const std::string &str);

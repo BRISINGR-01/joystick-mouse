@@ -11,6 +11,7 @@ void set_up_termios(int port);
 
 class Receiver
 {
+public:
     class Data
     {
     public:
@@ -37,7 +38,13 @@ public:
     ~Receiver();
     void connect(int port);
     bool wait();
-    bool process();
+    enum Status
+    {
+        OK,
+        NoAction,
+        Disconnected
+    };
+    Status process();
 
     bool is_btn_pressed(Button btn);
     int get_x();

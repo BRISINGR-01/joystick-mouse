@@ -24,7 +24,7 @@ Receiver::~Receiver()
     }
 }
 
-void Receiver::connect(int port)
+void Receiver::connect(int fd)
 {
     struct epoll_event event;
 
@@ -33,9 +33,9 @@ void Receiver::connect(int port)
         throw Exception("Failed to create epoll file descriptor");
 
     event.events = EPOLLIN;
-    event.data.fd = port;
+    event.data.fd = fd;
 
-    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, port, &event))
+    if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event))
     {
         close(epoll_fd);
 
@@ -50,13 +50,13 @@ void Receiver::connect(int port)
         }
     }
 
-    set_up_termios(port);
+    set_up_termios(fd);
 }
 
-void set_up_termios(int port)
+void set_up_termios(int fd)
 {
     termios tty{};
-    int status = tcgetattr(port, &tty);
+    int status = tcgetattr(fd, &tty);
     if (status == -1)
         throw Exception("Could not get termios settings");
 
@@ -74,11 +74,11 @@ void set_up_termios(int port)
     cfmakeraw(&tty);
     cfsetispeed(&tty, B9600); // Baud rate
 
-    status = tcsetattr(port, TCSANOW, &tty);
+    status = tcsetattr(fd, TCSANOW, &tty);
     if (status == -1)
         throw Exception("Could not set termios settings");
 
-    tcflush(port, TCIOFLUSH);
+    tcflush(fd, TCIOFLUSH);
 }
 
 bool Receiver::wait()
@@ -93,7 +93,7 @@ bool Receiver::wait()
     return true;
 }
 
-bool Receiver::process()
+Receiver::Status Receiver::process()
 {
     prev_data.set(curr_data.data);
     curr_data.set(empty_arr);
@@ -107,11 +107,10 @@ bool Receiver::process()
         {
         case -1:
             log_err("Error trying to read serial data");
-            break;
+            return NoAction;
         case 0:
             if (event.events & (EPOLLHUP | EPOLLRDHUP))
-                throw Exception("Device disconnected");
-            break;
+                return Disconnected;
         default:
             bool is_filled = fill(bytes_read, offset, buffer, curr_data.data);
             debug(is_filled, bytes_read, offset, buffer, curr_data.data);
@@ -119,14 +118,14 @@ bool Receiver::process()
             if (is_filled)
             {
                 offset = 0;
-                return true;
+                return OK;
             }
             offset = min(bytes_read + offset, DATA_SIZE);
             break;
         }
     }
 
-    return false;
+    return NoAction;
 }
 
 Receiver::Data::Data() : data({})

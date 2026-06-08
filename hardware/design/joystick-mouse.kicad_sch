@@ -17,13 +17,14 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "Joystick-Module"
-				(at 0 -8.89 0)
+				(at 6.35 0.0001 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
+					(justify left)
 				)
 			)
 			(property "Value" ""
@@ -36,7 +37,7 @@
 					)
 				)
 			)
-			(property "Footprint" ""
+			(property "Footprint" "COM-09032:XDCR_COM-09032"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -1767,8 +1768,8 @@
 	(junction
 		(at 120.65 53.34)
 		(diameter 0)
-		(color 255 0 0 1)
-		(uuid "5e71f99b-9449-45a0-a9b3-c974a0ada73f")
+		(color 0 0 0 0)
+		(uuid "6fa9b7fe-ee8c-42ff-b997-648a0ce45fbd")
 	)
 	(junction
 		(at 115.57 113.03)
@@ -1790,7 +1791,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 92.71) (xy 130.81 92.71)
+			(xy 128.27 91.44) (xy 130.81 91.44)
 		)
 		(stroke
 			(width 0)
@@ -1800,7 +1801,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 77.47) (xy 102.87 77.47)
+			(xy 90.17 76.2) (xy 102.87 76.2)
 		)
 		(stroke
 			(width 0)
@@ -1821,7 +1822,7 @@
 	)
 	(wire
 		(pts
-			(xy 115.57 110.49) (xy 115.57 113.03)
+			(xy 115.57 109.22) (xy 115.57 113.03)
 		)
 		(stroke
 			(width 0)
@@ -1842,7 +1843,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 85.09) (xy 102.87 85.09)
+			(xy 96.52 83.82) (xy 102.87 83.82)
 		)
 		(stroke
 			(width 0)
@@ -1852,7 +1853,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 88.9) (xy 83.82 82.55)
+			(xy 83.82 88.9) (xy 83.82 81.28)
 		)
 		(stroke
 			(width 0)
@@ -1862,7 +1863,7 @@
 	)
 	(wire
 		(pts
-			(xy 96.52 91.44) (xy 96.52 85.09)
+			(xy 96.52 91.44) (xy 96.52 83.82)
 		)
 		(stroke
 			(width 0)
@@ -1872,7 +1873,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 53.34) (xy 120.65 59.69)
+			(xy 120.65 53.34) (xy 120.65 58.42)
 		)
 		(stroke
 			(width 0)
@@ -1925,7 +1926,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 90.17) (xy 132.08 95.25)
+			(xy 132.08 88.9) (xy 132.08 95.25)
 		)
 		(stroke
 			(width 0)
@@ -1968,7 +1969,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 60.96) (xy 92.71 74.93)
+			(xy 92.71 60.96) (xy 92.71 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2034,7 +2035,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 55.88) (xy 95.25 72.39)
+			(xy 95.25 55.88) (xy 95.25 71.12)
 		)
 		(stroke
 			(width 0)
@@ -2045,7 +2046,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 101.6) (xy 97.79 87.63)
+			(xy 97.79 101.6) (xy 97.79 86.36)
 		)
 		(stroke
 			(width 0)
@@ -2094,28 +2095,37 @@
 			(type default)
 			(color 0 0 255 1)
 		)
-		(uuid "73a88af1-b861-4a73-ad41-b423deb881fa")
-	)
-	(wire
-		(pts
-			(xy 67.31 101.6) (xy 85.09 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 0 0 255 1)
-		)
 		(uuid "7f2877af-d053-48ea-bf1f-270ea5647c99")
 	)
 	(wire
 		(pts
-			(xy 82.55 80.01) (xy 102.87 80.01)
+			(xy 130.81 83.82) (xy 130.81 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "849edc82-5535-46b4-9837-dc932efdf8e6")
+	)
+	(wire
+		(pts
+			(xy 101.6 78.74) (xy 102.87 78.74)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "862450ce-d477-4b47-9f0a-24df60121fe6")
+	)
+	(wire
+		(pts
+			(xy 101.6 80.01) (xy 82.55 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a80321f-6b09-42d3-b5f2-3bd6e2baff0a")
 	)
 	(wire
 		(pts
@@ -2130,7 +2140,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 97.79) (xy 130.81 92.71)
+			(xy 130.81 97.79) (xy 130.81 91.44)
 		)
 		(stroke
 			(width 0)
@@ -2159,6 +2169,16 @@
 			(color 0 0 255 1)
 		)
 		(uuid "93a43449-eedf-4414-ba03-68c4b670ae46")
+	)
+	(wire
+		(pts
+			(xy 130.81 85.09) (xy 135.89 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93e76ec5-fdd1-469a-9adb-add91de147aa")
 	)
 	(wire
 		(pts
@@ -2191,6 +2211,16 @@
 			(color 255 0 0 1)
 		)
 		(uuid "a5bdddee-d6a6-4cc8-89e8-95a9beb6c7dd")
+	)
+	(wire
+		(pts
+			(xy 101.6 78.74) (xy 101.6 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6173d76-2405-4989-888e-92d311d00600")
 	)
 	(wire
 		(pts
@@ -2227,7 +2257,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 85.09) (xy 135.89 85.09)
+			(xy 128.27 83.82) (xy 130.81 83.82)
 		)
 		(stroke
 			(width 0)
@@ -2237,7 +2267,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 87.63) (xy 102.87 87.63)
+			(xy 97.79 86.36) (xy 102.87 86.36)
 		)
 		(stroke
 			(width 0)
@@ -2247,7 +2277,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 74.93) (xy 102.87 74.93)
+			(xy 92.71 73.66) (xy 102.87 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2258,7 +2288,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 82.55) (xy 102.87 82.55)
+			(xy 83.82 81.28) (xy 102.87 81.28)
 		)
 		(stroke
 			(width 0)
@@ -2322,7 +2352,7 @@
 	)
 	(wire
 		(pts
-			(xy 95.25 72.39) (xy 102.87 72.39)
+			(xy 95.25 71.12) (xy 102.87 71.12)
 		)
 		(stroke
 			(width 0)
@@ -2333,7 +2363,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 90.17) (xy 128.27 90.17)
+			(xy 132.08 88.9) (xy 128.27 88.9)
 		)
 		(stroke
 			(width 0)
@@ -2396,7 +2426,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 72.39) (xy 90.17 77.47)
+			(xy 90.17 72.39) (xy 90.17 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2416,7 +2446,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "144b2191-aea3-46f2-ad84-0dae102936a4")
-		(property "Reference" "Joystick-Module"
+		(property "Reference" "Joystick-Module1"
 			(at 158.75 95.2499 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2437,7 +2467,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "COM-09032:XDCR_COM-09032"
 			(at 152.4 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -2488,7 +2518,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "Joystick-Module")
+					(reference "Joystick-Module1")
 					(unit 1)
 				)
 			)
@@ -2506,7 +2536,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "58cc6519-c8b2-4e88-84f3-4bb107f2a663")
-		(property "Reference" "mouse_wheel"
+		(property "Reference" "mouse_wheel1"
 			(at 84.836 49.022 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2528,7 +2558,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Rotary_Encoder:RotaryEncoder_Bourns_Horizontal_PEC12R-2x17F-Nxxxx"
 			(at 82.55 54.356 0)
 			(hide yes)
 			(show_name no)
@@ -2573,7 +2603,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "mouse_wheel")
+					(reference "mouse_wheel1")
 					(unit 1)
 				)
 			)
@@ -2591,7 +2621,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7f275690-dd3d-41d8-8711-b4bb453de9f0")
-		(property "Reference" "back_sw"
+		(property "Reference" "back_sw1"
 			(at 90.17 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2611,7 +2641,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_XKB_DM1-16UP-1"
 			(at 90.17 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -2653,7 +2683,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "back_sw")
+					(reference "back_sw1")
 					(unit 1)
 				)
 			)
@@ -2671,7 +2701,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "865f7769-fa68-4da3-b3c1-9304220485f5")
-		(property "Reference" "#PWR02"
+		(property "Reference" "#PWR01"
 			(at 115.57 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -2731,7 +2761,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "#PWR02")
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -2749,7 +2779,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a21ab8c9-30b7-45e3-8ced-f46165835903")
-		(property "Reference" "#PWR01"
+		(property "Reference" "#PWR02"
 			(at 120.65 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -2809,7 +2839,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "#PWR01")
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -2828,7 +2858,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b694367b-027a-4006-ad71-e0d559149de8")
-		(property "Reference" "slider"
+		(property "Reference" "slider1"
 			(at 142.24 83.8199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2850,7 +2880,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_PTA3043_Single_Slide"
 			(at 139.7 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -2928,7 +2958,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "slider")
+					(reference "slider1")
 					(unit 1)
 				)
 			)
@@ -2946,7 +2976,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e034172e-0475-4692-9bc5-16b9ed83134c")
-		(property "Reference" "forward_sw"
+		(property "Reference" "forward_sw1"
 			(at 77.47 82.55 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2966,7 +2996,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_XKB_DM1-16UP-1"
 			(at 77.47 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -3008,7 +3038,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "forward_sw")
+					(reference "forward_sw1")
 					(unit 1)
 				)
 			)
@@ -3026,7 +3056,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e3eb28f0-c9f2-4d67-9ce7-afdb0b2f8b9f")
-		(property "Reference" "middle_sw"
+		(property "Reference" "middle_sw1"
 			(at 91.44 95.25 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3046,7 +3076,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_XKB_DM1-16UP-1"
 			(at 91.44 101.6 0)
 			(hide yes)
 			(show_name no)
@@ -3088,7 +3118,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "middle_sw")
+					(reference "middle_sw1")
 					(unit 1)
 				)
 			)
@@ -3096,7 +3126,7 @@
 	)
 	(symbol
 		(lib_id "MCU_Module:Arduino_Nano_Every")
-		(at 115.57 85.09 0)
+		(at 115.57 83.82 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3106,8 +3136,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e69bf054-7ea7-4063-adae-dcd0bdfac3a9")
-		(property "Reference" "Arduino_Nano"
-			(at 117.7133 110.49 0)
+		(property "Reference" "Arduino_Nano1"
+			(at 117.7133 109.22 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3118,7 +3148,7 @@
 			)
 		)
 		(property "Value" ""
-			(at 117.7133 113.03 0)
+			(at 117.7133 111.76 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3129,7 +3159,7 @@
 			)
 		)
 		(property "Footprint" "Module:Arduino_Nano"
-			(at 115.57 85.09 0)
+			(at 115.57 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3141,7 +3171,7 @@
 			)
 		)
 		(property "Datasheet" "https://content.arduino.cc/assets/NANOEveryV3.0_sch.pdf"
-			(at 115.57 85.09 0)
+			(at 115.57 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3152,7 +3182,7 @@
 			)
 		)
 		(property "Description" "Arduino Nano Every"
-			(at 115.57 85.09 0)
+			(at 115.57 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3255,7 +3285,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "Arduino_Nano")
+					(reference "Arduino_Nano1")
 					(unit 1)
 				)
 			)
@@ -3273,7 +3303,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ee76e0d4-bb09-4819-994e-14dd636459cf")
-		(property "Reference" "left_sw"
+		(property "Reference" "left_sw1"
 			(at 85.09 66.04 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3293,7 +3323,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_XKB_DM1-16UP-1"
 			(at 85.09 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -3335,7 +3365,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "left_sw")
+					(reference "left_sw1")
 					(unit 1)
 				)
 			)
@@ -3353,7 +3383,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f5cf0dce-a753-47f5-9f7e-ca1aaa211084")
-		(property "Reference" "right_sw"
+		(property "Reference" "right_sw1"
 			(at 77.47 73.66 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3373,7 +3403,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Button_Switch_THT:SW_XKB_DM1-16UP-1"
 			(at 77.47 80.01 0)
 			(hide yes)
 			(show_name no)
@@ -3415,7 +3445,7 @@
 		(instances
 			(project "joystick-mouse"
 				(path "/b66cdc9c-d2f2-4d12-8cbb-516da9b90f33"
-					(reference "right_sw")
+					(reference "right_sw1")
 					(unit 1)
 				)
 			)

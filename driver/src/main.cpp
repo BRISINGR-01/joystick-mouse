@@ -6,16 +6,20 @@
 #include <utils.hpp>
 #include <serial_comm.hpp>
 
-int main(int argc, char *argv[])
+int main()
 {
-    check_args(argc, argv);
+    char *dev_name = std::getenv("DEVNAME");
+    if (dev_name == NULL)
+    {
+        log_err("No port was provided");
+        exit(-1);
+    }
 
-    const string port_name = argv[1];
+    const string port_name = dev_name;
+
     int port = open_port(port_name);
-    write_log("Connected to port \"" + port_name + '"');
 
     auto receiver = Receiver();
-
     try
     {
         receiver.connect(port);
@@ -23,7 +27,7 @@ int main(int argc, char *argv[])
     catch (const std::exception &e)
     {
         close(port);
-        return -1;
+        exit(-1);
     }
 
     Mouse mouse(std::make_unique<UInputBackend>(DEVICE_NAME, VENDOR_ID, PRODUCT_ID));
@@ -32,17 +36,17 @@ int main(int argc, char *argv[])
         if (!receiver.wait())
             continue;
 
-        try
+        switch (receiver.process())
         {
-            if (!receiver.process())
-                continue;
+        case Receiver::Status::OK:
+            process_data(receiver, mouse);
+            break;
+        case Receiver::Status::NoAction:
+            break;
+        case Receiver::Status::Disconnected:
+            write_log("Device disconnected");
+            break;
         }
-        catch (const std::exception &e)
-        {
-            break; // device disconnected
-        }
-
-        process_data(receiver, mouse);
     }
 
     close(port);

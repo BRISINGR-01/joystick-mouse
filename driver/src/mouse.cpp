@@ -7,32 +7,36 @@ Mouse::Mouse(std::unique_ptr<EventInterface> event_interface) : event_interface(
 
 void Mouse::set_sensitivity(int val)
 {
-    // this->sensitivity = (float)val / 5;
-    this->sensitivity = 0.1;
+    this->sensitivity = (float)val / SENSITIVITY;
 }
 
-int get_step(int max)
+int inline get_movement_step(int max)
 {
-    return std::max(1, max / 5);
+    return std::max(1, max / MOVEMENT_STEP_PART);
 }
 
-int x_val, y_val, x_end, y_end, x_step, y_step;
+int inline get_movement_dir(int val)
+{
+    return val > 0 ? 1 : -1;
+}
+
+int x_val, y_val, x_goal, y_goal, x_step, y_step;
 bool x_done, y_done;
 void Mouse::move(int x, int y)
 {
     x_val = 0;
-    x_end = abs(x * sensitivity);
-    x_step = get_step(x_end) * (x > 0 ? 1 : -1);
+    x_goal = abs(x * sensitivity);
+    x_step = get_movement_step(x_goal) * get_movement_dir(x);
     x_done = false;
 
     y_val = 0;
-    y_end = abs(y * sensitivity);
-    y_step = get_step(y_end) * (y > 0 ? 1 : -1);
+    y_goal = abs(y * sensitivity);
+    y_step = get_movement_step(y_goal) * get_movement_dir(y);
     y_done = false;
 
-    while (!x_done || !y_done)
+    while (!x_done && !y_done)
     {
-        if (abs(x_val) < x_end)
+        if (abs(x_val) < x_goal)
         {
             x_val += x_step;
         }
@@ -41,7 +45,7 @@ void Mouse::move(int x, int y)
             x_done = true;
         }
 
-        if (abs(y_val) < y_end)
+        if (abs(y_val) < y_goal)
         {
             y_val += y_step;
         }
@@ -51,9 +55,8 @@ void Mouse::move(int x, int y)
         }
 
         event_interface->send_move_event(x_val, y_val);
-        usleep(100);
+        usleep(MOVEMENT_STEP_DELAY);
     }
-    printf("move: %d %d\n", x_end * (x > 0 ? 1 : -1), y_end * (y > 0 ? 1 : -1));
 }
 
 void Mouse::scroll(int val)

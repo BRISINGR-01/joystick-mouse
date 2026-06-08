@@ -4,6 +4,10 @@
 
 #include <memory>
 
+#define SENSITIVITY 15
+#define MOVEMENT_STEP_PART 5
+#define MOVEMENT_STEP_DELAY 100
+
 /**
  * @class Mouse
  * @brief Virtual mouse interface using uinput.

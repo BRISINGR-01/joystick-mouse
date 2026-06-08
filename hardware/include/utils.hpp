@@ -1,7 +1,7 @@
 #include <data_constants.hpp>
 
-#define SLIDER_PIN A0 // must be analog
-#define SLIDER_MAX 2024
+#define SLIDER_PIN A0
+#define SLIDER_MAX 1023
 
 int read_slider();
 

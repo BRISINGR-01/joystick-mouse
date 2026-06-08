@@ -6,24 +6,16 @@
 #include <fcntl.h>
 #include <math.h>
 
-void check_args(int argc, char *argv[])
-{
-    if (argc != 2)
-    {
-        log_err("Invalid usage. Expected single argument - path to port, instead " + to_string(argc - 1) + " argument(s) were provided.");
-        exit(-1);
-    }
-}
-
 int open_port(const string &port_name)
 {
     int port = open(port_name.c_str(), O_RDONLY | O_NOCTTY | O_NONBLOCK);
     if (port == -1)
     {
-        log_err("Could not open port");
+        log_err("Could not open port \"" + port_name + '"');
         exit(-1);
     }
 
+    write_log("Connected to port \"" + port_name + '"');
     return port;
 }
 
