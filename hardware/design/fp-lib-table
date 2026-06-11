@@ -1,0 +1,6 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "joystick-module") (type "KiCad") (uri "${KIPRJMOD}/joystick-module/joystick-module.pretty") (options "") (descr ""))
+	(lib (name "ky-023_joystick") (type "KiCad") (uri "${KIPRJMOD}/joystick-module/ky-023_joystick.pretty") (options "") (descr ""))
+	(lib (name "Library") (type "KiCad") (uri "${KIPRJMOD}/Library.pretty") (options "") (descr ""))
+)
